@@ -1,11 +1,22 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { TodosContext } from "../context/Context";
 
-const TodoItem = ({ todo, toggleTodo, deleteTodo }) => {
+const TodoItem = ({ todo }) => {
+  const { toggleTodo, deleteTodo } = useContext(TodosContext);
+
+  useEffect(() => {
+    console.log("item mounted");
+
+    return () => console.log("item unmounted");
+  }, []);
+
   return (
     <div
       className={`flex gap-4 items-center  px-3 py-2 rounded ${
-        todo.completed ? "italic bg-slate-200 text-gray-400" : "bg-gray-50"
+        todo.completed
+          ? "italic bg-gray-200 dark:bg-gray-700  text-gray-400"
+          : "bg-gray-50 dark:bg-gray-900"
       }`}
     >
       <div className="grow text-xl">{todo.title}</div>

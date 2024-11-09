@@ -1,16 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import TodoItem from "./TodoItem";
+import { TodosContext } from "../context/Context";
 
-const TodoList = ({ todos, toggleTodo, deleteTodo }) => {
+const TodoList = () => {
+  const { todos } = useContext(TodosContext);
   return (
     <div className="flex flex-col gap-3">
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          toggleTodo={toggleTodo}
-          deleteTodo={deleteTodo}
-        />
+      {todos.map((todo, index) => (
+        <TodoItem key={index} todo={todo} />
       ))}
     </div>
   );

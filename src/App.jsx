@@ -1,45 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
-import todosInit from "./data";
+import { ThemeContext } from "./context/Context";
+import { SunIcon } from "@heroicons/react/24/solid";
+import { MoonIcon } from "@heroicons/react/24/solid";
 
 const App = () => {
-  const [todos, setTodos] = useState(todosInit);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
-  const addTodo = (newTodo) => {
-    const tmp = todos.slice();
-    tmp.push({
-      id: tmp.length + 1,
-      title: newTodo,
-      completed: false,
-    });
-    setTodos(tmp);
-  };
+  useEffect(() => {
+    console.log("mounted");
+  }, []);
 
-  const toggleTodo = (id) => {
-    const index = todos.findIndex((todo) => todo.id === id);
-    const tmp = todos.slice();
-    tmp[index].completed = !tmp[index].completed;
-    setTodos(tmp);
-  };
-
-  const deleteTodo = (id) => {
-    const index = todos.findIndex((todo) => todo.id === id);
-    const tmp = todos.slice();
-    tmp.splice(index, 1);
-    setTodos(tmp);
-  };
+  useEffect(() => {
+    console.log(theme);
+  }, [theme]);
 
   return (
-    <div className="w-full h-screen bg-gray-300 text-gray-700 font-medium grid place-items-center">
-      <div className="w-full max-w-96 p-6 bg-gray-100 rounded-xl shadow-xl flex flex-col gap-5">
-        <h1 className="text-2xl font-bold text-center">React Todo</h1>
-        <TodoForm addTodo={addTodo} />
-        <TodoList
-          todos={todos}
-          toggleTodo={toggleTodo}
-          deleteTodo={deleteTodo}
-        />
+    <div className={theme}>
+      <button
+        className="fixed top-4 right-4 bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-200 w-10 h-10 flex items-center justify-center rounded-full shadow-lg"
+        onClick={toggleTheme}
+      >
+        {theme === "light" ? (
+          <SunIcon className="h-6" />
+        ) : (
+          <MoonIcon className="h-6" />
+        )}
+      </button>
+      <div className="w-full h-screen bg-gray-300 text-gray-700 dark:bg-gray-950 dark:text-gray-200 font-medium grid place-items-center">
+        <div className="w-full max-w-96 p-6 bg-gray-100 dark:bg-gray-800 rounded-xl shadow-xl flex flex-col gap-5">
+          <h1 className="text-2xl font-bold text-center">React Todo {}</h1>
+          <TodoForm />
+          <TodoList />
+        </div>
       </div>
     </div>
   );
